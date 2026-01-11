@@ -1,0 +1,72 @@
+# Kaggle Wan 2.1 Video Generation Configuration
+
+# Wan 2.1 Model Configuration
+wan21:
+  model_id: "Wan-AI/Wan2.1-T2V-1.3B-Diffusers"
+  resolution: [832, 480]
+  num_inference_steps: 50
+  sample_shift: 4.0
+  output_fps: 16
+  torch_dtype_transformer: "bfloat16"
+  torch_dtype_vae: "float32"
+  scheduler: "UniPCMultistepScheduler"
+
+# Storage Configuration (Kaggle-specific paths)
+storage:
+  cache_dir: "/kaggle/tmp/huggingface"
+  output_dir: "/kaggle/working/output"
+  vector_db_dir: "/kaggle/working/vector_db"
+  input_dir: "/kaggle/input"
+
+# Validation Rules
+validation:
+  min_frames: 49
+  max_frames: 121
+  frame_rule_modulo: 4  # (n - 1) % 4 == 0
+
+# Story Generation Configuration (Mode 2)
+story:
+  num_scenes: 5  # Generate exactly 5 scenes for video
+  min_scenes: 5
+  max_scenes: 5
+  scene_length_words: 50
+
+# LLM Configuration (for story generation)
+llm:
+  provider: "gemini"
+  model: "gemini-2.5-flash"
+  temperature: 0.7
+  max_tokens: 8000
+  api_key_env: "GEMINI_API_KEY"
+
+# Embedding Configuration (for vector DB)
+embeddings:
+  provider: "sentence-transformers"
+  model: "all-MiniLM-L6-v2"
+  dimension: 384
+
+# Vector Database Configuration
+vector_db:
+  type: "chromadb"
+  persist_directory: "/kaggle/working/vector_db"
+  collection_name: "mahabharat_passages"
+  # Paths to look for pre-built vector DB
+  input_paths:
+    - "/kaggle/input/vector_db"
+    - "/kaggle/input/data/vector_db"
+    - "/kaggle/working/vector_db"
+
+# Retrieval Configuration
+retrieval:
+  num_seed_passages: 1
+  num_context_passages: 3
+  diversity_threshold: 0.3
+  max_retries: 10
+
+# Data Configuration (for recreating vector DB from PDF)
+data:
+  raw_data_dir: "/kaggle/input/data/raw"
+  processed_data_dir: "/kaggle/working/data/processed"
+  chunk_size: 500
+  chunk_overlap: 50
+

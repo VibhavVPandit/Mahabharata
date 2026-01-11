@@ -1,0 +1,22 @@
+# Kaggle Wan 2.1 Video Generation Requirements
+
+# Core Video Generation
+diffusers>=0.21.0
+transformers>=4.30.0
+accelerate>=0.20.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.8
+sentencepiece
+
+# Story Generation (Mode 2)
+chromadb>=0.4.15
+sentence-transformers>=2.2.0
+google-generativeai>=0.3.0
+pydantic>=2.0.0
+pyyaml>=6.0.1
+numpy>=1.24.0
+
+# Optional Optimizations
+# bitsandbytes  # For quantization (if needed)
+# xformers  # For memory-efficient attention (if needed)
+
