@@ -62,6 +62,11 @@ retrieval:
   num_context_passages: 3
   diversity_threshold: 0.3
   max_retries: 10
+  # Hybrid search settings
+  use_hybrid: true
+  semantic_weight: 0.5  # 0.5 = equal weight, higher = favor semantic
+  fusion_method: "rrf"  # "rrf" (Reciprocal Rank Fusion) or "weighted"
+  rrf_k: 60  # RRF constant (higher = less aggressive rank boosting)
 
 # Data Configuration (for recreating vector DB from PDF)
 data:

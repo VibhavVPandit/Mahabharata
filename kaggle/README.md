@@ -4,10 +4,12 @@ This directory contains everything needed to generate videos from Mahabharata st
 
 ## Overview
 
-The solution supports **two modes**:
+The solution generates videos directly from Mahabharata stories:
 
-1. **JSON Input Mode**: Generate videos from existing `video_prompts_*.json` files
-2. **Vector DB Mode**: Fetch from vector database → Generate ~5 scenes → Generate videos
+1. **Create Vector Database** from PDF (first time only)
+2. **Retrieve passages** from vector database
+3. **Generate story scripts** (~5 scenes) and narration using Gemini API
+4. **Generate videos** from scripts using Wan 2.1
 
 ## Files
 
@@ -46,55 +48,39 @@ In the sidebar, set:
 - **Internet**: **On** (required for model downloads)
 - **Persistence**: **Files Only** (optional, keeps downloaded models)
 
-### 4. Set API Key (for Vector DB Mode)
+### 4. Upload PDF
 
-If using Mode 2 (Vector DB → Story → Video):
+1. Click **"Add Data"** → **"Upload"**
+2. Upload `Mahabharata.pdf` to `/kaggle/input/`
+
+### 5. Set API Key
 
 1. Go to **Settings** → **Secrets** → **Add Secret**
 2. **Name**: `GEMINI_API_KEY`
 3. **Value**: Your Gemini API key
 4. Click **"Add"**
 
-### 5. Upload JSON File (for JSON Input Mode)
-
-If using Mode 1 (JSON Input):
-
-1. Click **"Add Data"** → **"Upload"**
-2. Upload your `video_prompts_*.json` file
-3. Note the path (usually `/kaggle/input/video_prompts_*.json`)
-
 ## Usage
 
-### Mode 1: JSON Input → Video Generation
-
-1. Open the notebook
-2. In the **Configuration** cell, set:
+1. Open the notebook `wan21_video_generation.ipynb`
+2. In the **Configuration** cell, optionally set:
    ```python
-   MODE = "json"
-   JSON_FILE = "/kaggle/input/video_prompts_20251226_214744.json"  # Update path
+   QUERY = "Arjuna"  # Or None for random passage
+   PDF_PATH = "/kaggle/input/Mahabharata.pdf"  # Update if different
    ```
-3. Run all cells
-4. Download videos from `/kaggle/working/output/`
-
-### Mode 2: Vector DB → Story → Video
-
-1. **First, generate vector database** (if not already done):
-   - Upload `data/raw/Mahabharata.pdf` to `/kaggle/input/`
-   - Run the vector DB creation cells (see notebook for instructions)
-   
-2. Open the notebook
-3. In the **Configuration** cell, set:
-   ```python
-   MODE = "vector_db"
-   QUERY = None  # Or "Arjuna" for targeted retrieval
-   ```
-4. Run all cells
-5. The notebook will:
-   - Load vector database
-   - Retrieve passages
-   - Generate ~5 scenes using Gemini API
+3. Run all cells in order:
+   - **Cell 1**: Setup and installation
+   - **Cell 2**: Configuration
+   - **Cell 3**: Create vector database from PDF (first time only, skips if already exists)
+   - **Cell 4**: Generate story scripts and videos
+   - **Cell 5**: Zip output for download
+4. The notebook will:
+   - Extract text from PDF and create vector database (if needed)
+   - Retrieve passages from vector database
+   - Generate ~5 scenes and narration using Gemini API
+   - Save scripts: `video_prompts_TIMESTAMP.json` and `narration_TIMESTAMP.json`
    - Generate videos from scenes
-6. Download videos and scripts from `/kaggle/working/output/`
+5. Download videos and scripts from `/kaggle/working/output/`
 
 ## Technical Specifications
 
@@ -127,8 +113,8 @@ If using Mode 1 (JSON Input):
 All outputs are saved to `/kaggle/working/output/`:
 
 - **Videos**: `scene_01.mp4`, `scene_02.mp4`, etc.
-- **Scripts** (Mode 2): `video_prompts_TIMESTAMP.json`
-- **Narration** (Mode 2): `narration_TIMESTAMP.json`
+- **Scripts**: `video_prompts_TIMESTAMP.json` (video prompts for each scene)
+- **Narration**: `narration_TIMESTAMP.json` (story title, hook, story, CTA, voiceover)
 
 You can download individual files or use the zip cell to create `videos_output.zip`.
 
@@ -138,7 +124,10 @@ You can download individual files or use the zip cell to create `videos_output.z
 
 **Error**: "Vector database is empty"
 
-**Solution**: Generate the vector database in the notebook first by uploading the PDF and running the preprocessing cells.
+**Solution**: 
+1. Ensure `Mahabharata.pdf` is uploaded to `/kaggle/input/`
+2. Run Cell 3 (Create Vector Database from PDF) first
+3. Wait for the vector database creation to complete before running Cell 4
 
 ### Out of Memory
 
