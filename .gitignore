@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# API Keys and Secrets (extra safety)
+*_secret*
+*_key*
+secrets.yaml
+config.local.yaml
+kaggle_config.local.yaml
+
+# Output files
+output/
+*.mp4
+*.avi
+*.mov
+*.json
+!requirements*.txt
+!package*.json
+
+# Cache directories
+cache/
+.cache/
+__cache__/
+/kaggle/tmp/
+/kaggle/working/output/
+/kaggle/working/vector_db/
+/kaggle/working/data/
+
+# Vector database files
+vector_db/
+*.db
+*.sqlite
+*.sqlite3
+chroma.sqlite3
+bm25_index.pkl
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# PDF files (if they contain sensitive data)
+# Uncomment if you don't want to commit PDFs
+# *.pdf
+
